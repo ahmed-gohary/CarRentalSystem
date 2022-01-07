@@ -162,6 +162,33 @@ proc_label:BEGIN
 
 END;
 
+CREATE PROCEDURE delete_customer_by_id(
+    IN customer_to_delete_id INT,
+    OUT error_msg NVARCHAR(255)
+)
+proc_label:BEGIN
+	DECLARE stored_customer_id INT;
+    DECLARE customer_rental_status NVARCHAR(30);
+
+    SET stored_customer_id = (SELECT customer_id FROM customer WHERE customer.customer_id=customer_to_delete_id);
+
+    IF stored_customer_id IS NULL THEN
+        SET error_msg = CONCAT('Customer does not exist!!!');
+        LEAVE proc_label;
+    END IF;
+
+    SET customer_rental_status = (SELECT rental_status FROM rental WHERE rental.customer_id=stored_customer_id);
+
+	IF customer_rental_status IS NOT NULL AND customer_rental_status != 'CLOSED' THEN
+		SET error_msg = CONCAT('Customer has an open rental, can not delete customer before rental is cleared');
+        LEAVE proc_label;
+    END IF;
+
+    DELETE FROM customer
+    WHERE customer_id=customer_to_delete_id;
+
+END;
+
 CREATE PROCEDURE get_all_booking_for_date(
     IN query_date DATE
 )

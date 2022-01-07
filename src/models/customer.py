@@ -32,3 +32,16 @@ class Customer:
                 driving_license=json["driving_license"] if "driving_license" in json else None,
             )
 
+
+class DeleteCustomer:
+
+    def __init__(self, customer_id):
+        self.customer_id = customer_id
+
+    @staticmethod
+    def build_from_json(json):
+        if "customer_id" not in json:
+            raise Exception("Missing \'customer_id\'")
+        else:
+            return DeleteCustomer(customer_id=json["customer_id"])
+
