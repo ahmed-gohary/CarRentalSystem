@@ -1,0 +1,95 @@
+
+
+########### CREATE USER ##########
+curl -X POST \
+  http://192.168.1.5:5000/customer/add \
+  -H 'content-type: application/json' \
+  -d '{
+    "first_name": "Ahmed",
+    "last_name": "Gohary",
+    "phone_number": "01226746186",
+    "email": "ahmed.gohary.yello@gmail.com",
+    "national_id": "123456789", 
+    "driving_license": "55554444"
+}'
+
+########### UPDATE USER ##########
+curl -X PUT \
+  http://192.168.1.5:5000/customer/updateByNID \
+  -H 'content-type: application/json' \
+  -d '{
+    "first_name": "Gohary",
+    "last_name": "Ahmed",
+    "phone_number": "01226746186",
+    "national_id": "123456789", 
+    "driving_license": "55554444"
+}'
+
+########### DELETE USER BY ID ##########
+curl -X DELETE \
+  http://192.168.1.5:5000/customer/ \
+  -H 'content-type: application/json' \
+  -d '{
+    "customer_id": "2"
+}'
+
+########### CREATE VEHICLE ##########
+curl -X POST \
+  http://192.168.1.5:5000/vehicle/add \
+  -H 'content-type: application/json' \
+  -d '{
+    "vehicle_type": "Family",
+    "capacity": "7",
+    "model": "Volks Vagen"
+}'
+
+########### CREATE VEHICLE ##########
+curl -X POST \
+  http://192.168.1.5:5000/vehicle/add \
+  -H 'content-type: application/json' \
+  -d '{
+    "vehicle_type": "Small",
+    "capacity": "4",
+    "model": "MG-5"
+}'
+
+########### RENT VEHICLE without pickup_date ##########
+curl -X POST \
+  http://192.168.1.5:5000/vehicle/rent \
+  -H 'content-type: application/json' \
+  -d '{
+    "cost": "30.55",
+    "return_date": "2022-01-09",
+    "customer_id": "2",
+    "vehicle_id": "1"
+}'
+
+########### RENT VEHICLE with pickup_date ##########
+curl -X POST \
+  http://192.168.1.5:5000/vehicle/rent \
+  -H 'content-type: application/json' \
+  -d '{
+    "cost": "30.55",
+    "pickup_date": "2022-01-14",
+    "return_date": "2022-01-20",
+    "customer_id": "1",
+    "vehicle_id": "1"
+}'
+
+
+########### CLEAR VEHICLE RENT ##########
+curl -X PUT \
+  http://192.168.1.5:5000/vehicle/clearRent \
+  -H 'content-type: application/json' \
+  -d '{
+    "rental_id": "1"
+}'
+
+
+########### GET RENTAL REPOIRT BY DATE ##########
+curl -X GET \
+  http://192.168.1.5:5000/vehicle/getReportByDate \
+  -H 'content-type: application/json' \
+  -d '{
+    "date": "2022-01-07"
+}'
